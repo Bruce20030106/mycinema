@@ -2,8 +2,11 @@ package com.example.mycinema.controller;
 
 import com.example.mycinema.domain.dto.PageDTO;
 import com.example.mycinema.domain.po.Movie;
+import com.example.mycinema.domain.vo.MovieVO;
+import com.example.mycinema.query.MovieQuery;
 import com.example.mycinema.service.IMovieService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +24,11 @@ public class MovieController {
         return movieService.getMovieById(id);
     }
 
-
+    @ApiOperation("根据条件分页查询用户接口")
+    @GetMapping("/index")
+    public PageDTO<MovieVO> getMoviesByPage(MovieQuery query){
+        return movieService.getMoviesByPage();
+    }
 
 
 }

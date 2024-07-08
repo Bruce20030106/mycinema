@@ -19,6 +19,4 @@ public class User {
 
     private Integer age;
 
-    private List<String> prefernece;
-
 }

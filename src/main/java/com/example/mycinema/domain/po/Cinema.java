@@ -20,9 +20,9 @@ public class Cinema {
 
     private String location;
 
-    private List<Long> showingMovieIds; // 上映电影的id列表
+    private String showingMovieIds; // 上映电影的id列表
 
-    private Map<String,Integer> ticketPrices; //电影名和电影票价的映射
+    private String ticketPrices; //电影名和电影票价的映射
 
 
 }

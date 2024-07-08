@@ -25,12 +25,12 @@ public class Movie {
     @TableField("release_date")
     private Long showTime;
 
-    private List<String> actors;
+    private String actors;
 
     @TableField("movie_types")
-    private List<String> movieTypes;
+    private String movieTypes;
 
-    private String rate;
+    private Double rate;
 
 
 }

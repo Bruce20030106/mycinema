@@ -23,13 +23,13 @@ public class Order {
 
     private String cinemaName;
 
-    private LocalDateTime orderTime; //下单时间
+    private String orderTime; //下单时间
 
     private String hallNumber; //影厅号，如3D5号厅
 
     private String seatNumber; //座位号，如F35
 
-    private LocalDateTime showTime;
+    private String showTime;
 
     private Integer ticketCount; //一次买了几张票
 

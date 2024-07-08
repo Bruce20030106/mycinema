@@ -25,7 +25,7 @@ public class MovieVO {
 
     private List<String> movieTypes;
 
-    private String rate;
+    private Integer rate;
 
 
 }
