@@ -40,9 +40,9 @@ public class PageQuery {
         return toMpPage(new OrderItem(defaultSortBy, defaultAsc));
     }
 
-    public <T> Page<T> toMpPageDefaultSortByupdateTime(){
+    public <T> Page<T> toMpPageDefaultSortByRate(){
 
-        return toMpPage(new OrderItem("update_time",false));
+        return toMpPage(new OrderItem("rate",false));
     }
 
     public <T> Page<T> toMpPageDefaultSortByCreateTime(){

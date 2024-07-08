@@ -16,7 +16,7 @@ public class Cinema {
 
     private String cinemaName;
 
-    private String pictureName;//the name of the image of the cinema
+    private String cinema_picture;//the name of the image of the cinema
 
     private String location;
 

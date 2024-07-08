@@ -25,9 +25,9 @@ public class MovieController {
     }
 
     @ApiOperation("根据条件分页查询用户接口")
-    @GetMapping("/index")
+    @GetMapping("/page")
     public PageDTO<MovieVO> getMoviesByPage(MovieQuery query){
-        return movieService.getMoviesByPage();
+        return movieService.getMoviesByPage(query);
     }
 
 
