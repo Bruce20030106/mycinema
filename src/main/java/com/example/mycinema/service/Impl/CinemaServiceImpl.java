@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.mycinema.domain.po.Cinema;
 import com.example.mycinema.mapper.CinemaMapper;
 import com.example.mycinema.service.ICinemaService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CinemaServiceImpl extends ServiceImpl<CinemaMapper, Cinema> implements ICinemaService{
 }

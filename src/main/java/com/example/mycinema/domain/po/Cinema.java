@@ -1,7 +1,11 @@
 package com.example.mycinema.domain.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
+
 
 public class Cinema {
     private Long cinemaId;
