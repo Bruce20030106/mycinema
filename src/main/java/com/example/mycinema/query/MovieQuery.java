@@ -1,6 +1,5 @@
 package com.example.mycinema.query;
 
-import com.example.mycinema.enums.MovieGenre;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ public class MovieQuery extends PageQuery{
     private String movieName;
 
     @ApiModelProperty("电影类型")
-    private MovieGenre genre;
+    private Integer genre;
 
     @ApiModelProperty("电影评分")
     private Integer rate;

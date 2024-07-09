@@ -18,9 +18,9 @@ public class CinemaVO {
 
     private String location;
 
-    private List<Integer> showingMovieIds; // 上映电影的id列表
+    private String showingMovieIds; // 上映电影的id列表
 
-    private List<Map<Integer,Integer>> ticketPrices; //电影名和电影票价的映射
+    private String ticketPrices; //电影名和电影票价的映射
 
 
 }
