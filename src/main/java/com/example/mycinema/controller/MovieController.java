@@ -1,5 +1,6 @@
 package com.example.mycinema.controller;
 
+import com.example.mycinema.common.R;
 import com.example.mycinema.domain.dto.PageDTO;
 import com.example.mycinema.domain.po.Movie;
 import com.example.mycinema.domain.vo.MovieVO;
@@ -27,8 +28,9 @@ public class MovieController {
 
     @ApiOperation("根据条件分页查询用户接口")
     @GetMapping("/page")
-    public PageDTO<MovieVO> getMoviesByPage(MovieQuery query){
-        return movieService.getMoviesByPage(query);
+    public R<PageDTO<MovieVO>> getMoviesByPage(MovieQuery query){
+        PageDTO<MovieVO> moviesPage = movieService.getMoviesByPage(query);
+        return R.success(moviesPage);
     }
 
 

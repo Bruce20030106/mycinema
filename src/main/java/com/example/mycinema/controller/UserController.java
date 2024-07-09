@@ -1,5 +1,6 @@
 package com.example.mycinema.controller;
 
+import com.example.mycinema.common.R;
 import com.example.mycinema.domain.dto.RegisterInfo;
 import com.example.mycinema.service.IUserService;
 import io.swagger.annotations.Api;
@@ -18,8 +19,10 @@ public class UserController {
     private final IUserService userService;
 
     @PostMapping("/register")
-    public void UserRegister(@RequestBody RegisterInfo registerInfo){
+    public R<String> UserRegister(@RequestBody RegisterInfo registerInfo){
+        userService.userRegister(registerInfo);
 
+        return R.success("用户注册成功！");
     }
 
 }
