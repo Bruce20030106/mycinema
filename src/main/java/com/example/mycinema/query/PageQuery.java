@@ -14,7 +14,7 @@ public class PageQuery {
     private Integer pageNo = 1;
 
     @ApiModelProperty("页面大小")
-    private Integer pageSize = 5;
+    private Integer pageSize = 20;
 
     @ApiModelProperty("排序字段")
     private String sortBy;

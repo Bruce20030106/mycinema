@@ -3,20 +3,30 @@ package com.example.mycinema.service.Impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.mycinema.common.R;
 import com.example.mycinema.domain.dto.PageDTO;
+import com.example.mycinema.domain.po.Cinema;
 import com.example.mycinema.domain.po.Movie;
+import com.example.mycinema.domain.vo.CinemaVO;
 import com.example.mycinema.domain.vo.MovieVO;
+import com.example.mycinema.mapper.CinemaMapper;
 import com.example.mycinema.mapper.MovieMapper;
 import com.example.mycinema.query.MovieQuery;
 import com.example.mycinema.service.IMovieService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
+@AllArgsConstructor
 public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements IMovieService {
+
+    private final CinemaMapper cinemaMapper;
     @Override
-    public MovieVO getMovieById(Long id) {
-        Movie movie = getById(id);
+    public MovieVO getMovieById(Long movieId) {
+        Movie movie = getById(movieId);
 
         MovieVO vo = BeanUtil.copyProperties(movie, MovieVO.class);
         return vo;
@@ -44,5 +54,18 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
             return vo;
         });
 
+    }
+
+    @Override
+    public List<CinemaVO> getCinemasByMovieId(Long movieId) {
+
+        List<Cinema> cinemas = cinemaMapper.selectList(null);
+
+        List<CinemaVO> cinemaVOS = cinemas.stream()
+                .filter(cinema -> cinema.getShowingMovieIds().contains(movieId))
+                .map(cinema -> BeanUtil.copyProperties(cinema, CinemaVO.class))
+                .collect(Collectors.toList());
+
+        return cinemaVOS;
     }
 }

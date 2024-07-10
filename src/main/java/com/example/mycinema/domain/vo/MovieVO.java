@@ -17,11 +17,11 @@ public class MovieVO {
 
     private String movieName;
 
-    private String summary;
-
     private String posterName;
 
-//    private Long showTime;
+    private String summary;
+
+    private Long showTime;
 
     private String actors;
 

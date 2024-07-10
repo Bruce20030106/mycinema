@@ -2,7 +2,9 @@ package com.example.mycinema.controller;
 
 import com.example.mycinema.common.R;
 import com.example.mycinema.domain.dto.PageDTO;
+import com.example.mycinema.domain.po.Cinema;
 import com.example.mycinema.domain.po.Movie;
+import com.example.mycinema.domain.vo.CinemaVO;
 import com.example.mycinema.domain.vo.MovieVO;
 import com.example.mycinema.query.MovieQuery;
 import com.example.mycinema.service.IMovieService;
@@ -13,26 +15,38 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(tags = "电影管理接口")
-@RequestMapping("/movies")
+
 @RestController
 @AllArgsConstructor
 public class MovieController {
 
     private final IMovieService movieService;
 
-    @GetMapping("/{id}")
-    public MovieVO getMoiveById(@PathVariable Long id){
-        return movieService.getMovieById(id);
+    @ApiOperation("根据电影id查询电影的详细信息")
+    @GetMapping("/movie/{movieId}")
+    public R<MovieVO> getMoiveById(@PathVariable Long movieId){
+        return R.success(movieService.getMovieById(movieId));
     }
 
     @ApiOperation("根据条件分页查询用户接口")
-    @GetMapping("/page")
-    public R<PageDTO<MovieVO>> getMoviesByPage(MovieQuery query){
+    @GetMapping("/movies/{page}")
+    public R<PageDTO<MovieVO>> getMoviesByPage(@PathVariable Integer page){
+        MovieQuery query = new MovieQuery();
+        query.setPageNo(page);
         PageDTO<MovieVO> moviesPage = movieService.getMoviesByPage(query);
         return R.success(moviesPage);
     }
 
+    @PostMapping("/movie/getCinemasByMovie/{movieId}")
+    public R<List<CinemaVO>> getCinemasByMovieId(@PathVariable Long movieId){
 
+        List<CinemaVO> cinemas = movieService.getCinemasByMovieId(movieId);
+
+        return R.success(cinemas);
+
+    }
 
 }
