@@ -2,7 +2,9 @@ package com.example.mycinema.domain.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
+@Data
 public class OrderVO {
 
     private Long orderId;
@@ -29,7 +31,7 @@ public class OrderVO {
 
     private Integer ticketCount; //一次买了几张票
 
-    private Integer ticketPrices;
+    private Integer ticketPrice;
 
     private Integer orderPrice; //orderPrice= ticketCount * ticketPrices
 

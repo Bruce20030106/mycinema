@@ -1,6 +1,7 @@
 package com.example.mycinema.domain.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -35,7 +36,8 @@ public class Order {
 
     private Integer ticketCount; //一次买了几张票
 
-    private Integer ticketPrices;
+    @TableField("ticket_prices")
+    private Integer ticketPrice;
 
     private Integer orderPrice; //订单金额=电影票数×票单价
 
