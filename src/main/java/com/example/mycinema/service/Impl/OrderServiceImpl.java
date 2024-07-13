@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.mycinema.common.DateTimeUtil;
 import com.example.mycinema.common.UUIDUtil;
 import com.example.mycinema.domain.dto.OrderInfo;
+import com.example.mycinema.domain.po.Movie;
 import com.example.mycinema.domain.po.Order;
 import com.example.mycinema.domain.vo.OrderVO;
 import com.example.mycinema.mapper.CinemaMapper;
@@ -13,9 +14,11 @@ import com.example.mycinema.mapper.OrderMapper;
 import com.example.mycinema.mapper.UserMapper;
 import com.example.mycinema.service.IOrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +32,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private final CinemaMapper cinemaMapper;
 
     private MovieMapper movieMapper;
+
+    private RedisTemplate<String, Object> redisTemplate;
+
+    private static final String ORDER_CACHE_PREFIX = "order:";
 
     @Override
     public List<OrderVO> getAllOrdersByUserId(Long userId) {
@@ -44,8 +51,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public OrderVO getAOrderByOrderId(Long orderId) {
-        Order order = orderMapper.selectById(orderId);
-
+        String cacheKey = ORDER_CACHE_PREFIX + orderId;
+        Order order = (Order) redisTemplate.opsForValue().get(cacheKey);
+        System.out.println("Redis中电影键为:"+cacheKey);
+        if(order == null){
+            System.out.println("redis中未有数据，前往mysql数据库查询");
+            order = orderMapper.selectById(orderId);
+            if(order != null){
+                redisTemplate.opsForValue().set(cacheKey,order,1, TimeUnit.HOURS);
+            }
+        }
         return BeanUtil.copyProperties(order,OrderVO.class);
     }
 
@@ -59,7 +74,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         order.setCinemaName(cinemaMapper.selectById(orderInfo.getCinemaId()).getCinemaName());
 
-        order.setOrderId(UUIDUtil.generateUUIDAsLong());
+        Long orderId = UUIDUtil.generateUUIDAsLong();
+
+        order.setOrderId(orderId);
 
         order.setOrderPrice(orderInfo.getTicketPrice()*orderInfo.getTicketCount());
 
@@ -67,10 +84,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         orderMapper.insert(order);
 
+        String cacheKey = ORDER_CACHE_PREFIX + orderId;
+        redisTemplate.opsForValue().set(cacheKey,order);
+
     }
 
     @Override
     public void deleteOrder(Long orderId) {
+
+        String cacheKey = ORDER_CACHE_PREFIX + orderId;
+        redisTemplate.delete(cacheKey);
+
         orderMapper.deleteById(orderId);
     }
 }

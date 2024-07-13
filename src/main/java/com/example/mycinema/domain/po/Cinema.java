@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
-@TableName("cinema")
+@TableName("Cinema")
 public class Cinema {
     @TableId(type = IdType.AUTO)
     private Long cinemaId;
@@ -28,9 +28,10 @@ public class Cinema {
 
     private String ticketPrices; //电影名和电影票价的映射
 
-    public List<Long> getShowingMovieIds() {
-        return Arrays.stream(showingMovieIds.split(","))
-                .map(Long::valueOf)
-                .collect(Collectors.toList());
-    }
+//    public List<Long> getShowingMovieIds() {
+//        return Arrays.stream(showingMovieIds.split(","))
+//                .map(Long::valueOf)
+//                .collect(Collectors.toList());
+//    }
+
 }

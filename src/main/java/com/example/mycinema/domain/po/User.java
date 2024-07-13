@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@TableName("user")
+@TableName("User")
 public class User {
     @TableId(type = IdType.AUTO)
     private Long userId;

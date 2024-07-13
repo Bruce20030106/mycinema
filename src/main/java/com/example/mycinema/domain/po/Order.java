@@ -9,7 +9,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("orders")
+@TableName("Orders")
 public class Order {
     @TableId(type = IdType.AUTO)
     private Long orderId;

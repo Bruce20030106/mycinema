@@ -8,19 +8,26 @@ import com.example.mycinema.common.UUIDUtil;
 import com.example.mycinema.domain.dto.LoginInfo;
 import com.example.mycinema.domain.dto.RegisterInfo;
 import com.example.mycinema.domain.po.User;
+import com.example.mycinema.domain.vo.UserVO;
 import com.example.mycinema.mapper.UserMapper;
 import com.example.mycinema.service.IUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     private final UserMapper userMapper;
+
+    private RedisTemplate<String, Object> redisTemplate;
+
+    private final static String USER_KEY = "user:";
 
     @Override
     public boolean userRegister(RegisterInfo registerInfo) {
@@ -48,5 +55,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         } else return user;
 
     }
+
+    @Override
+    public UserVO getUserInfo(Long userId) {
+        String cachekey = USER_KEY + userId;
+
+        User user = (User) redisTemplate.opsForValue().get(cachekey);
+
+        if(user == null){
+            user = userMapper.selectById(userId);
+            if(user != null){
+                redisTemplate.opsForValue().set(cachekey,user,1, TimeUnit.DAYS);
+            }
+        }
+
+        UserVO userVO = BeanUtil.copyProperties(user, UserVO.class);
+
+        return userVO;
+    }
+
+
 }
 

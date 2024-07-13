@@ -39,8 +39,11 @@ public class UserController {
 
     @ApiOperation("查询当前登录用户的详细信息")
     @PostMapping("/user/getUserInfo")
-    public R<UserVO> getUserInfo(){
-        return null;
+    public R<UserVO> getUserInfo(@RequestParam Long userId){
+
+        UserVO userInfo = userService.getUserInfo(userId);
+
+        return R.success(userInfo);
     }
 
     @PostMapping("doLogin")

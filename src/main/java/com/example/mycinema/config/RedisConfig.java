@@ -16,9 +16,9 @@ public class RedisConfig {
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisClusterConfiguration clusterConfig = new RedisClusterConfiguration()
-                .clusterNode("node1", 8000)
-                .clusterNode("node1", 8001)
-                .clusterNode("node1", 8002);
+                .clusterNode("8.135.238.152", 6379)
+                .clusterNode("8.135.238.152", 6380)
+                .clusterNode("8.135.238.152", 6381);
         return new LettuceConnectionFactory(clusterConfig);
     }
 

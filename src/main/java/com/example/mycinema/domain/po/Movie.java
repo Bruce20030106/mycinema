@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("movie")
+@TableName("Movie")
 public class Movie {
     @TableId(type = IdType.AUTO)
     private Long movieId;
