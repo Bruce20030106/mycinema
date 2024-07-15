@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class UserController {
 
 
+    @Qualifier("IUserService")
     private final IUserService userService;
 
     @PostMapping("/doRegister")
@@ -47,7 +49,7 @@ public class UserController {
         return R.success(userInfo);
     }
 
-    @PostMapping("doLogin")
+    @PostMapping("/doLogin")
     public R<String> userLogin(@RequestBody LoginInfo loginInfo){
 
         User user = userService.login(loginInfo);

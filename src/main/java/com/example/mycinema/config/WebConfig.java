@@ -13,6 +13,6 @@ public class WebConfig implements WebMvcConfigurer {
     private LoginCheckInterceptor loginCheckInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginCheckInterceptor).excludePathPatterns("/**").excludePathPatterns("doLogin");
+        registry.addInterceptor(loginCheckInterceptor).addPathPatterns("/**").excludePathPatterns("/doLogin");
     }
 }
