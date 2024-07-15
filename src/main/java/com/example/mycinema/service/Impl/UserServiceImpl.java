@@ -57,13 +57,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public UserVO getUserInfo(Long userId) {
-        String cachekey = USER_KEY + userId;
+    public UserVO getUserInfo(String userName) {
+        String cachekey = USER_KEY + userName;
 
         User user = (User) redisTemplate.opsForValue().get(cachekey);
 
         if(user == null){
-            user = userMapper.selectById(userId);
+            user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUserName, userName));
             if(user != null){
                 redisTemplate.opsForValue().set(cachekey,user,1, TimeUnit.DAYS);
             }

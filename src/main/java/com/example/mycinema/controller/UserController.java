@@ -2,6 +2,7 @@ package com.example.mycinema.controller;
 
 import com.example.mycinema.common.JwtUtils;
 import com.example.mycinema.common.R;
+import com.example.mycinema.common.UserContextHolder;
 import com.example.mycinema.domain.dto.LoginInfo;
 import com.example.mycinema.domain.dto.RegisterInfo;
 import com.example.mycinema.domain.po.User;
@@ -39,9 +40,9 @@ public class UserController {
 
     @ApiOperation("查询当前登录用户的详细信息")
     @PostMapping("/user/getUserInfo")
-    public R<UserVO> getUserInfo(@RequestParam Long userId){
+    public R<UserVO> getUserInfo(){
 
-        UserVO userInfo = userService.getUserInfo(userId);
+        UserVO userInfo = userService.getUserInfo(UserContextHolder.getUser().getUserName());
 
         return R.success(userInfo);
     }
