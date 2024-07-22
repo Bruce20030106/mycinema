@@ -44,7 +44,13 @@ public class UserController {
     @PostMapping("/user/getUserInfo")
     public R<UserVO> getUserInfo(){
 
-        UserVO userInfo = userService.getUserInfo(UserContextHolder.getUser().getUserName());
+        String userName = UserContextHolder.getUser().getUserName();
+
+        if(userName == null){
+            return R.error("NOT_LOGIN");
+        }
+
+        UserVO userInfo = userService.getUserInfo(userName);
 
         return R.success(userInfo);
     }

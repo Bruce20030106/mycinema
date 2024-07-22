@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MovieController {
 
+    @Qualifier("IMovieService")
     private final IMovieService movieService;
 
     @ApiOperation("根据电影id查询电影的详细信息")

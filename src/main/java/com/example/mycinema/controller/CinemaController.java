@@ -7,6 +7,7 @@ import com.example.mycinema.service.ICinemaService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CinemaController {
 
+    @Qualifier("ICinemaService")
     private final ICinemaService cinemaService;
 
     @PostMapping("/getAllCinemas")

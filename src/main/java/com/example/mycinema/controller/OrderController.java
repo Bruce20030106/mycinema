@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +19,13 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderController {
 
+    @Qualifier("IOrderService")
     private final IOrderService orderService;
 
     @ApiOperation("根据当前用户id批量查询用户的历史订单")
-    @GetMapping("/{UserId}")
-    public R<List<OrderVO>> getAllOrdersByUserId(@PathVariable Long UserId){
-        List<OrderVO> orders = orderService.getAllOrdersByUserId(UserId);
+    @GetMapping("/orders/{userId}")
+    public R<List<OrderVO>> getAllOrdersByUserId(@PathVariable Long userId){
+        List<OrderVO> orders = orderService.getAllOrdersByUserId(userId);
         return R.success(orders);
     }
 

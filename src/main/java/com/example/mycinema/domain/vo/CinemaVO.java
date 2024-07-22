@@ -14,7 +14,7 @@ public class CinemaVO {
 
     private String cinemaName;
 
-    private String pictureName;//the name of the image of the cinema
+    private String cinemaPicture;//the name of the image of the cinema
 
     private String location;
 

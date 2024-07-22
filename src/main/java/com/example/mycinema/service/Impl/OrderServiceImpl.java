@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService{
+public class  OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService{
 
     private final OrderMapper orderMapper;
 
