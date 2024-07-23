@@ -27,6 +27,8 @@ public class MovieController {
     @Qualifier("IMovieService")
     private final IMovieService movieService;
 
+
+
     @ApiOperation("根据电影id查询电影的详细信息")
     @GetMapping("/movie/{movieId}")
     public R<MovieVO> getMoiveById(@PathVariable Long movieId){

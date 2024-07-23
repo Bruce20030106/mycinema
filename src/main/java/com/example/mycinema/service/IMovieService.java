@@ -19,4 +19,6 @@ public interface IMovieService extends IService<Movie> {
     PageDTO<MovieVO> getMoviesByPage(MovieQuery query);
 
     List<CinemaVO> getCinemasByMovieId(Long movieId);
+
+    List<Long> getAllMovieIds();
 }

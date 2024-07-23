@@ -15,4 +15,6 @@ public interface IUserService extends IService<User> {
     User login(LoginInfo loginInfo);
 
     UserVO getUserInfo(String userName);
+
+
 }

@@ -14,6 +14,7 @@ import com.example.mycinema.mapper.MovieMapper;
 import com.example.mycinema.query.MovieQuery;
 import com.example.mycinema.service.IMovieService;
 import lombok.AllArgsConstructor;
+import org.redisson.api.RBloomFilter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -34,20 +35,33 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
 
     private static final String MOVIE_PAGE_CACHE_PREFIX = "moviePage:";
 
+    private RBloomFilter<Long> movieBloomFilter;
+
     @Override
     public MovieVO getMovieById(Long movieId) {
         String cacheKey = MOVIE_CACHE_PREFIX + movieId;
+        System.out.println("Redis中电影键为:" + cacheKey);
+
+        // 使用布隆过滤器检查键是否存在
+        if (!movieBloomFilter.contains(movieId)) {
+            System.out.println("布隆过滤器中不存在该电影ID:" + movieId);
+            return null;
+        }
+
         Movie movie = (Movie) redisTemplate.opsForValue().get(cacheKey);
-        System.out.println("Redis中电影键为:"+cacheKey);
-        if(movie == null){
+        if (movie == null) {
             System.out.println("redis中未有数据，前往mysql数据库查询");
             movie = movieMapper.selectById(movieId);
-            if(movie != null){
-                redisTemplate.opsForValue().set(cacheKey,movie,1, TimeUnit.HOURS);
+            if (movie != null) {
+                redisTemplate.opsForValue().set(cacheKey, movie, 1, TimeUnit.HOURS);
+                // 将新查询到的电影ID添加到布隆过滤器中
+                movieBloomFilter.add(movieId);
+            } else {
+                System.out.println("MySQL中也未找到该电影ID:" + movieId);
             }
         }
 
-        return BeanUtil.copyProperties(movie,MovieVO.class);
+        return BeanUtil.copyProperties(movie, MovieVO.class);
     }
 
     @Override
@@ -96,5 +110,15 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
                 .collect(Collectors.toList());
 
         return cinemaVOS;
+    }
+
+    @Override
+    public List<Long> getAllMovieIds() {
+        List<Movie> movies = movieMapper.selectList(null);
+        List<Long> ids = movies.stream().map(movie -> {
+            Long movieId = movie.getMovieId();
+            return movieId;
+        }).collect(Collectors.toList());
+        return ids;
     }
 }
