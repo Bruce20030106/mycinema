@@ -2,6 +2,7 @@ package com.example.mycinema.controller;
 
 import com.example.mycinema.common.JwtUtils;
 import com.example.mycinema.common.R;
+import com.example.mycinema.common.TokenBlacklistService;
 import com.example.mycinema.common.UserContextHolder;
 import com.example.mycinema.domain.dto.LoginInfo;
 import com.example.mycinema.domain.dto.RegisterInfo;
@@ -27,6 +28,8 @@ public class UserController {
 
     @Qualifier("IUserService")
     private final IUserService userService;
+
+    private TokenBlacklistService tokenBlacklistService;
 
     @PostMapping("/doRegister")
     public R<String> UserRegister(@RequestBody RegisterInfo registerInfo){
@@ -70,6 +73,14 @@ public class UserController {
         }
 
         return R.error("用户名或密码错误");
+    }
+
+    @ApiOperation("用户登出")
+    @PostMapping("/doLogout")
+    public R<String> userLogout(@RequestHeader("token") String token) {
+
+        tokenBlacklistService.addToBlacklist(token);
+        return R.success("退出登录成功！");
     }
 
 

@@ -3,10 +3,12 @@ package com.example.mycinema.interceptor;
 import com.alibaba.fastjson.JSONObject;
 import com.example.mycinema.common.JwtUtils;
 import com.example.mycinema.common.R;
+import com.example.mycinema.common.TokenBlacklistService;
 import com.example.mycinema.common.UserContextHolder;
 import com.example.mycinema.domain.dto.LoginInfo;
 import com.example.mycinema.domain.po.User;
 import io.jsonwebtoken.Claims;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,7 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Component
+@AllArgsConstructor
 public class LoginCheckInterceptor implements HandlerInterceptor {
+
+    private TokenBlacklistService tokenBlacklistService;
+
     @Override //目标资源方法运行前运行, 返回true: 放行, 放回false, 不放行
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
         //1.获取请求url。
@@ -37,7 +43,14 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             resp.getWriter().write(notLogin);
             return false;
         }
-
+        // 检查Token是否在黑名单中
+        if (tokenBlacklistService.isBlacklisted(jwt)) {
+            //手动转换 对象--json --------> 阿里巴巴fastJSON
+            R error = R.error("NOT_LOGIN");
+            String notLogin = JSONObject.toJSONString(error);
+            resp.getWriter().write(notLogin);
+            return false;
+        }
         //5.解析token，如果解析失败，返回错误结果（未登录）。
         Claims claims;
         try {
