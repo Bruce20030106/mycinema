@@ -21,4 +21,6 @@ public interface IMovieService extends IService<Movie> {
     List<CinemaVO> getCinemasByMovieId(Long movieId);
 
     List<Long> getAllMovieIds();
+
+    List<MovieVO> getMovieByName(String partMovieName);
 }

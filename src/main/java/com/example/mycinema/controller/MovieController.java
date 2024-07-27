@@ -35,6 +35,13 @@ public class MovieController {
         return R.success(movieService.getMovieById(movieId));
     }
 
+    @ApiOperation("根据电影名查询电影的详细信息")
+    @GetMapping("/searchMovies/{partMovieName}")
+    public R<List<MovieVO>> getMoiveByName(@PathVariable String partMovieName) {
+        List<MovieVO> movieByName = movieService.getMovieByName(partMovieName);
+        return R.success(movieByName);
+    }
+
     @ApiOperation("根据条件分页查询用户接口")
     @GetMapping("/movies/{page}")
     public R<PageDTO<MovieVO>> getMoviesByPage(@PathVariable Integer page){

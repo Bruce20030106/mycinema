@@ -1,6 +1,7 @@
 package com.example.mycinema.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.mycinema.common.StringToListUtil;
@@ -120,5 +121,12 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
             return movieId;
         }).collect(Collectors.toList());
         return ids;
+    }
+
+    @Override
+    public List<MovieVO> getMovieByName(String partMovieName) {
+        List<Movie> list = lambdaQuery().like(Movie::getMovieName, partMovieName).list();
+        List<MovieVO> movieVOS = BeanUtil.copyToList(list, MovieVO.class);
+        return movieVOS;
     }
 }
