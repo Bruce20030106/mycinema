@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(to right, #f1329b, #ff00ff);
+    color: white;
+    z-index: 10;
+    position: relative;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background: #2b2b2b;
+  }
+  
+  .search-bar input {
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+  }
