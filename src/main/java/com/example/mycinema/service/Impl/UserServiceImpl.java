@@ -31,7 +31,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public boolean userRegister(RegisterInfo registerInfo) {
-        registerInfo.setUserId(UUIDUtil.generateUUIDAsLong());
+        registerInfo.setUserId(UUIDUtil.generateUUIDAs8DigitLong());
         User user = BeanUtil.copyProperties(registerInfo, User.class);
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(User::getUserName,user.getUserName());

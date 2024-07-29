@@ -74,7 +74,7 @@ public class  OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implement
 
         order.setCinemaName(cinemaMapper.selectById(orderInfo.getCinemaId()).getCinemaName());
 
-        Long orderId = UUIDUtil.generateUUIDAsLong();
+        Long orderId = UUIDUtil.generateUUIDAs8DigitLong();
 
         order.setOrderId(orderId);
 
